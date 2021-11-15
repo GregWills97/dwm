@@ -1,0 +1,53 @@
+#! /bin/bash
+picom -f &
+nitrogen --restore &
+/usr/bin/setxkbmap -option "caps:swapescape"
+xrdb -merge /home/greg/.Xresources
+
+dte(){
+    dte="$(date +"  %A, %B %d | %l:%M%p")"
+    echo -e "$dte"
+}
+
+mem(){
+    mem=`free -h | awk '/Mem/ {print $3}'`
+    echo -e "  $mem"
+}
+
+cpu(){
+    cpu=`sensors | awk '/Tccd1/ {print $2}' | head -n 1 | cut -c 2-`
+    echo -e " $cpu"
+}
+
+bat(){
+    batsyms=(     )
+    num=`acpi | awk '{print $4}' | sed 's/%*.$//'`
+    status=`acpi | awk '{print $3}' | sed 's/,//'`
+    index=`echo "$num / 20" | bc`
+    if [ "$status" == Discharging ] ; then
+    	echo -e "${batsyms[$index]} $num%"
+    else
+    	echo -e " ${batsyms[$index]} $num%"
+    fi
+    
+}
+
+vol(){
+    vol=`amixer sget Master | awk -F"[][]" '/Front Left: Pla/ {print $2}'`
+    echo -e "  $vol"
+}
+
+kernel(){
+    kern=`uname -r`
+    echo -e "  $kern"
+}
+
+internet(){
+    internet=`ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}'`
+    echo -e "  $internet"
+}
+
+while true; do
+    xsetroot -name " $(kernel) | $(internet) | $(cpu) | $(mem) | $(dte)"
+    sleep 1s
+done &
