@@ -8,8 +8,9 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "UbuntuMono Nerd Font:size=14:antialias=true:autohint=true", 
                                         "FontAwesome:pixelsize=15:antialias=true:autohint=true",
-                                        "Font Awesome 5 Free:pixelsize=15:antialias=true:autohint=true",
-                                        "Font Awesome 5 Brands:pixelsize=15:antialias=true:autohint=true" };
+                                        "Font Awesome 5 Brands:pixelsize=13:antialias=true:autohint=true",
+                                        "Font Awesome 5 Free Solid:pixelsize=13:antialias=true:autohint=true",
+                                        "Font Awesome 5 Free:pixelsize=13:antialias=true:autohint=true" };
 static const char dmenufont[]       = "UbuntuMono Nerd Font:size=14";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
@@ -93,7 +94,7 @@ static const char *termcmd[]  = { "st", NULL };
 #include <X11/XF86keysym.h>
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_d,      spawn,          SHCMD("~/.scripts/dmenu_run.sh") },
+	{ MODKEY,                       XK_d,      spawn,          SHCMD("sh /etc/dwm-greg/dmenu_run") },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY|ShiftMask,             XK_j,      rotatestack,    {.i = +1 } },

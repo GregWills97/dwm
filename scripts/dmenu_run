@@ -1,0 +1,3 @@
+#! /bin/bash
+
+dmenu_run -c -l 15 -nb "#222222" -nf "#bbbbbb" -sb "#E65E00" -sf "#eeeeee" -p "Run: "
