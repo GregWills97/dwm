@@ -48,6 +48,6 @@ internet(){
 }
 
 while true; do
-    xsetroot -name " $(kernel) | $(internet) | $(cpu) | $(mem) | $(dte)"
+    xsetroot -name " $(kernel) | $(internet) | $(vol) | $(cpu) | $(mem) | $(dte)"
     sleep 1s
 done &
