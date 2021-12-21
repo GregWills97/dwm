@@ -94,7 +94,7 @@ static const char *termcmd[]  = { "st", NULL };
 #include <X11/XF86keysym.h>
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_d,      spawn,          SHCMD("sh /etc/dwm-greg/dmenu_run") },
+	{ MODKEY,                       XK_d,      spawn,          SHCMD("/etc/dwm-greg/dmenu_run") },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY|ShiftMask,             XK_j,      rotatestack,    {.i = +1 } },
@@ -121,7 +121,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_f,      spawn,          SHCMD("brave-bin") },
 	{ MODKEY|ShiftMask,             XK_d,      spawn,          SHCMD("discord") },
-	{ MODKEY|ShiftMask,             XK_b,      spawn,          SHCMD("blueman-manager") },
+	{ MODKEY|ShiftMask,             XK_b,      spawn,          SHCMD("pcmanfm") },
 	{ MODKEY|ShiftMask,             XK_c,      spawn,          SHCMD("brave-bin canvas.uncc.edu") },
 	{ MODKEY|ShiftMask,             XK_y,      spawn,          SHCMD("brave-bin youtube.com") },
 	{ MODKEY|ShiftMask,             XK_F2,     spawn,          SHCMD("brave-bin twitch.tv") },
@@ -136,6 +136,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("sudo poweroff") },
     { 0,         XF86XK_AudioRaiseVolume,      spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +10%") },
     { 0,         XF86XK_AudioLowerVolume,      spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -10%") },
+    { 0,         XF86XK_AudioPlay,             spawn,          SHCMD("playerctl --all-players play-pause") },
     { 0,         XF86XK_AudioMute,             spawn,          SHCMD("amixer set Capture toggle") },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
