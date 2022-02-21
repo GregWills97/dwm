@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Find user and session ID
+USER="whoami"
+SID=`loginctl list-sessions | awk '/greg/ {print $1}'`
+
+# Define dmenu command
+DMENU="dmenu -c -i -l 10"
+
+
+main() {
+    # Declare array of options
+    declare -a options=(
+    "Logout"
+    "Suspend"
+    "Reboot"
+    "Poweroff"
+    )
+
+    choice=$(printf '%s\n' "${options[@]}" | ${DMENU} "${@}")
+
+    case $choice in
+        'Logout')
+            if [[ "$(echo -e "No\nYes" | ${DMENU} -p "${choice}?" "${@}" )" == "Yes" ]]; then
+                loginctl terminate-session ${SID}
+            else
+                exit 0
+            fi
+            ;;
+        'Suspend')
+            if [[ "$(echo -e "No\nYes" | ${DMENU} -p "${choice}?" "${@}" )" == "Yes" ]]; then
+                loginctl suspend
+            else
+                exit 0
+            fi
+            ;;
+        'Reboot')
+            if [[ "$(echo -e "No\nYes" | ${DMENU} -p "${choice}?" "${@}" )" == "Yes" ]]; then
+                loginctl reboot
+            else
+                exit 0
+            fi
+            ;;
+        'Poweroff')
+            if [[ "$(echo -e "No\nYes" | ${DMENU} -p "${choice}?" "${@}" )" == "Yes" ]]; then
+                loginctl poweroff
+            else
+                exit 0
+            fi
+            ;;
+        *)
+            exit 0
+            ;;
+    esac
+}
+
+[[ "${BASH_SOURCE[0]}" == "${0}" ]] && main "$@"
