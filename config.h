@@ -130,10 +130,9 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_v,      spawn,          SHCMD("pavucontrol") },
 	{ MODKEY|ShiftMask,             XK_i,      spawn,          SHCMD("st -e ranger") },
 	{ MODKEY|ShiftMask,             XK_n,      spawn,          SHCMD("st -e sudo nmtui") },
-	{ MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("doas poweroff") },
 	{ MODKEY|ShiftMask,             XK_g,      spawn,          SHCMD("lutris") },
 	{ MODKEY|ShiftMask,             XK_F1,     spawn,          SHCMD("steam") },
-	{ MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("sudo poweroff") },
+	{ MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("/etc/dwm-greg/session-manager") },
     { 0,         XF86XK_AudioRaiseVolume,      spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +10%") },
     { 0,         XF86XK_AudioLowerVolume,      spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -10%") },
     { 0,         XF86XK_AudioPlay,             spawn,          SHCMD("playerctl --all-players play-pause") },
@@ -147,7 +146,6 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_e,      quit,           {0} },
 };
 
 /* button definitions */
