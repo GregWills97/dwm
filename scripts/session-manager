@@ -18,8 +18,6 @@ main() {
     "Poweroff"
     )
 
-    echo ${USER} 
-    echo ${SID} 
     choice=$(printf '%s\n' "${options[@]}" | ${DMENU} "${@}")
 
     case $choice in
