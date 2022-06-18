@@ -6,11 +6,8 @@ static const unsigned int gappx     = 5;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "UbuntuMono Nerd Font:size=14:antialias=true:autohint=true", 
-                                        "FontAwesome:pixelsize=15:antialias=true:autohint=true",
-                                        "Font Awesome 5 Brands:pixelsize=13:antialias=true:autohint=true",
-                                        "Font Awesome 5 Free Solid:pixelsize=13:antialias=true:autohint=true",
-                                        "Font Awesome 5 Free:pixelsize=13:antialias=true:autohint=true" };
+static const char *fonts[]          = { "Liberation Mono:style=Regular:size=15:antialias=true:autohint=true",
+					"Ubuntu Nerd Font Mono:style=Regular:size=15:antialias=true:autohint=true"};
 static const char dmenufont[]       = "UbuntuMono Nerd Font:size=14";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
@@ -42,7 +39,7 @@ static const unsigned int alphas[][3]      = {
 
 /* tagging */
 //static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-static const char *tags[] = { "", "", "", "", "", "", "", "", "" };
+static const char *tags[] = { "", "", "ﭮ", "", "", "", "", "", ""};
 //static const char *tags[] = { " ", " ", " "," ", " ", " ", " ", " ", " " };
 
 static const Rule rules[] = {
@@ -58,7 +55,7 @@ static const Rule rules[] = {
 /* layout(s) */
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 
 #include "fibonacci.c"
 #include "layouts.c"
@@ -128,7 +125,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_p,      spawn,          SHCMD("passmenu") },
 	{ MODKEY,                       XK_t,      spawn,          SHCMD("emacs") },
 	{ MODKEY|ShiftMask,             XK_v,      spawn,          SHCMD("pavucontrol") },
-	{ MODKEY|ShiftMask,             XK_i,      spawn,          SHCMD("st -e ranger") },
+	{ MODKEY|ShiftMask,             XK_i,      spawn,          SHCMD("st -e /etc/dwm-greg/lf-wrapper") },
 	{ MODKEY|ShiftMask,             XK_n,      spawn,          SHCMD("st -e sudo nmtui") },
 	{ MODKEY|ShiftMask,             XK_g,      spawn,          SHCMD("lutris") },
 	{ MODKEY|ShiftMask,             XK_F1,     spawn,          SHCMD("steam") },
