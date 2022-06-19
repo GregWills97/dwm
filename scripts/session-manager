@@ -22,28 +22,28 @@ main() {
 
     case $choice in
         'Logout')
-            if [[ "$(echo -e "No\nYes" | ${DMENU} -p "${choice}?" "${@}" )" == "Yes" ]]; then
+            if [[ "$(echo -e "Yes\nNo" | ${DMENU} -p "${choice}?" "${@}" )" == "Yes" ]]; then
                 loginctl terminate-session ${SID}
             else
                 exit 0
             fi
             ;;
         'Suspend')
-            if [[ "$(echo -e "No\nYes" | ${DMENU} -p "${choice}?" "${@}" )" == "Yes" ]]; then
+            if [[ "$(echo -e "Yes\nNo" | ${DMENU} -p "${choice}?" "${@}" )" == "Yes" ]]; then
                 loginctl suspend
             else
                 exit 0
             fi
             ;;
         'Reboot')
-            if [[ "$(echo -e "No\nYes" | ${DMENU} -p "${choice}?" "${@}" )" == "Yes" ]]; then
+            if [[ "$(echo -e "Yes\nNo" | ${DMENU} -p "${choice}?" "${@}" )" == "Yes" ]]; then
                 loginctl reboot
             else
                 exit 0
             fi
             ;;
         'Poweroff')
-            if [[ "$(echo -e "No\nYes" | ${DMENU} -p "${choice}?" "${@}" )" == "Yes" ]]; then
+            if [[ "$(echo -e "Yes\nNo" | ${DMENU} -p "${choice}?" "${@}" )" == "Yes" ]]; then
                 loginctl poweroff
             else
                 exit 0
