@@ -1517,7 +1517,7 @@ run(void)
 
 void
 runAutostart(void) {
-	system("cd /etdc/gde; ./autostart &");
+	system("cd /etc/gde; ./autostart &");
 }
 
 void
