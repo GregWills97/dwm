@@ -1517,7 +1517,7 @@ run(void)
 
 void
 runAutostart(void) {
-	system("cd /etc/dwm-greg; ./autostart &");
+	system("/etc/gde/autostart &");
 }
 
 void

@@ -91,7 +91,7 @@ static const char *termcmd[]  = { "st", NULL };
 #include <X11/XF86keysym.h>
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_d,      spawn,          SHCMD("/etc/dwm-greg/dmenu_run") },
+	{ MODKEY,                       XK_d,      spawn,          SHCMD("/etc/gde/dmenu_run") },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY|ShiftMask,             XK_j,      rotatestack,    {.i = +1 } },
@@ -125,15 +125,14 @@ static Key keys[] = {
 	{ MODKEY,                       XK_p,      spawn,          SHCMD("passmenu") },
 	{ MODKEY,                       XK_t,      spawn,          SHCMD("emacs") },
 	{ MODKEY|ShiftMask,             XK_v,      spawn,          SHCMD("pavucontrol") },
-	{ MODKEY|ShiftMask,             XK_i,      spawn,          SHCMD("st -e /etc/dwm-greg/lf-wrapper") },
-	{ MODKEY|ShiftMask,             XK_n,      spawn,          SHCMD("st -e sudo nmtui") },
+	{ MODKEY|ShiftMask,             XK_i,      spawn,          SHCMD("st -e /etc/gde/lf-wrapper") },
 	{ MODKEY|ShiftMask,             XK_g,      spawn,          SHCMD("lutris") },
 	{ MODKEY|ShiftMask,             XK_F1,     spawn,          SHCMD("steam") },
-	{ MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("/etc/dwm-greg/session-manager") },
+	{ MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("/etc/gde/session-manager") },
     { 0,         XF86XK_AudioRaiseVolume,      spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +10%") },
     { 0,         XF86XK_AudioLowerVolume,      spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -10%") },
     { 0,         XF86XK_AudioPlay,             spawn,          SHCMD("playerctl --all-players play-pause") },
-    { 0,         XF86XK_AudioMute,             spawn,          SHCMD("amixer set Capture toggle") },
+    //{ 0,         XF86XK_AudioMute,             spawn,          SHCMD("amixer set Capture toggle") },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
