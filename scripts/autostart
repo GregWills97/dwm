@@ -24,7 +24,7 @@ bat(){
     batsyms=(     )
     cap=`cat /sys/class/power_supply/BAT0/capacity`
     status=`cat /sys/class/power_supply/BAT0/status`
-    index=`awk '{ print int($1/20) }' /sys/class/power_supply/BAT0/capacity`
+    index=`echo $cap | awk '{ print int($1/20) }'`
 
     [ "$status" = "Discharging" ] || sym=" " 
     echo -e "$sym${batsyms[$index]} $cap%"
