@@ -14,7 +14,7 @@ mem(){
     echo -e "  $mem"
 }
 
-cpu(){
+temps(){
     cpu=`sensors | awk '/Tctl/ {print $2}' | head -n 1 | cut -c 2-3`
     gpu=`sensors | awk '/edge/ {print $2}' | head -n 1 | cut -c 2-3`
     echo -e " $cpu / $gpu°C"
@@ -56,6 +56,6 @@ internet(){
 }
 
 while true; do
-    xsetroot -name " $(internet) | $(kernel) | $(vol) | $(cpu) | $(mem) | $(bat) | $(dte)"
+    xsetroot -name " $(internet) | $(kernel) | $(vol) | $(temps) | $(mem) | $(bat) | $(dte)"
     sleep 1s
 done &
