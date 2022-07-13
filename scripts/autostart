@@ -42,16 +42,11 @@ kernel(){
 }
 
 internet(){
-    [ -d /sys/class/net/tun* ] && vpn_sym=" [VPN]"
 
-    case "$(cat /sys/class/net/w*/operstate 2>/dev/null)" in
-        down) wifiicon=""  ;;
-	up)   wifiicon="" ;;
-    esac
-    case "$(cat /sys/class/net/en*/operstate 2>/dev/null)" in
-        down) ethicon=""  ;;
-	up)   ethicon="" ;;
-    esac
+    [ -d /sys/class/net/tun* ] && vpn_sym=" [VPN]"
+    [ "$(cat /sys/class/net/w*/operstate 2>/dev/null)" = "up" ] && wifiicon=""
+    [ "$(cat /sys/class/net/en*/operstate 2>/dev/null)" = "up" ] && ethicon=""
+
     echo -e "$ethicon$wifiicon$vpn_sym"
 }
 
