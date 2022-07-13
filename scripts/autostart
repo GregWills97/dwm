@@ -15,8 +15,8 @@ mem(){
 }
 
 temps(){
-    cpu=`sensors | awk '/Tctl/ {print $2}' | head -n 1 | cut -c 2-3`
-    gpu=`sensors | awk '/edge/ {print $2}' | head -n 1 | cut -c 2-3`
+    cpu=`sensors | awk '/Tctl/ {print $2}' | sed -r 's/[+°C]//g'`
+    gpu=`sensors | awk '/junction/ {print $2}' | sed -r 's/[+°C]//g'`
     echo -e " $cpu / $gpu°C"
 }
 
