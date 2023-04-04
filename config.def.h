@@ -8,6 +8,8 @@ static const unsigned int gappx     = 10;       /* default gap between windows i
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
+static const int vertpad            = 10;       /* vertical padding of bar */
+static const int sidepad            = 10;       /* horizontal padding of bar */
 static const char *fonts[]          = { "Liberation Mono:style=Regular:size=10:antialias=true:autohint=true",
 										"JoyPixels:style=Regular:size=10:antialias=true:autohint=true",
 										"Font Awesome 5 Free Regular:style=Regular:size=10:antialias=true:autohint=true",
@@ -77,7 +79,9 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-c", "-l", "15",
+								  "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan,
+								  "-sf", col_gray4, "-p", "Run: ", NULL };
 static const char *termcmd[]  = { "st", NULL };
 
 static const Key keys[] = {

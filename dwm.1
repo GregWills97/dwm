@@ -35,8 +35,8 @@ selected window
 dwm draws a small border around windows to indicate the focus state.
 .P
 On start, dwm can start additional programs that may be specified in two special
-shell scripts (see the FILES section below), autostart_blocking.sh and
-autostart.sh.  The former is executed first and dwm will wait for its
+shell scripts (see the FILES section below), gde-autostart-blocking.sh and
+gde-autostart.sh.  The former is executed first and dwm will wait for its
 termination before starting.  The latter is executed in the background before
 dwm enters its handler loop.
 .P
@@ -67,11 +67,11 @@ click on a tag label applies that tag to the focused window.
 click on a tag label adds/removes that tag to/from the focused window.
 .SS Keyboard commands
 .TP
-.B Mod1\-Shift\-Return
+.B Mod1\-Return
 Start
 .BR st(1).
 .TP
-.B Mod1\-p
+.B Mod1\-d
 Spawn
 .BR dmenu(1)
 for launching other programs.
@@ -91,14 +91,8 @@ Send focused window to next screen, if any.
 .B Mod1\-b
 Toggles bar on and off.
 .TP
-.B Mod1\-t
+.B Mod1\-w
 Sets tiled layout.
-.TP
-.B Mod1\-f
-Sets floating layout.
-.TP
-.B Mod1\-m
-Sets monocle layout.
 .TP
 .B Mod1\-space
 Toggles between current and previous layout.
@@ -109,10 +103,16 @@ Focus next window.
 .B Mod1\-k
 Focus previous window.
 .TP
+.B Mod1\-Shift\-j
+Rotates stack up
+.TP
+.B Mod1\-Shift\-k
+Rotates stack down
+.TP
 .B Mod1\-i
 Increase number of windows in master area.
 .TP
-.B Mod1\-d
+.B Mod1\-u
 Decrease number of windows in master area.
 .TP
 .B Mod1\-l
@@ -121,10 +121,7 @@ Increase master area size.
 .B Mod1\-h
 Decrease master area size.
 .TP
-.B Mod1\-Return
-Zooms/cycles focused window to/from master area (tiled layouts only).
-.TP
-.B Mod1\-Shift\-c
+.B Mod1\-x
 Close focused window.
 .TP
 .B Mod1\-f
@@ -154,8 +151,17 @@ View all windows with any tag.
 .B Mod1\-Control\-[1..n]
 Add/remove all windows with nth tag to/from the view.
 .TP
-.B Mod1\-Shift\-q
-Quit dwm.
+.B Mod1\-Shift\-=
+Toggle on and off gaps between windows
+.TP
+.B Mod1\-Shift\--
+Reset gaps between windows back to default size
+.TP
+.B Mod1\-=
+Increase gaps between windows
+.TP
+.B Mod1\--
+Decrease gaps between windows
 .SS Mouse commands
 .TP
 .B Mod1\-Button1
