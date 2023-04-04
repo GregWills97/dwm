@@ -125,6 +125,9 @@ struct Monitor {
 	int wx, wy, ww, wh;   /* window area  */
 	int gappx;	          /* gaps between windows */
 	int drawwithgaps;     /* toggle gaps */
+	int vbargappx;		  /* gaps between bar and top of screen*/
+	int sbargappx;		  /* gaps between bar and side of screen*/
+	int drawbarwithgaps;  /* toggle bar gaps */
 	unsigned int seltags;
 	unsigned int sellt;
 	unsigned int tagset[2];
@@ -213,6 +216,7 @@ static void setclientstate(Client *c, long state);
 static void setfocus(Client *c);
 static void setfullscreen(Client *c, int fullscreen);
 static void setgaps(const Arg *arg);
+static void setbargaps(const Arg *arg);
 static void setlayout(const Arg *arg);
 static void setmfact(const Arg *arg);
 static void setup(void);
@@ -265,8 +269,6 @@ static int screen;
 static int sw, sh;           /* X display screen geometry width, height */
 static int bh;               /* bar height */
 static int lrpad;            /* sum of left and right padding for text */
-static int vp;               /* vertical padding for bar */
-static int sp;               /* side padding for bar */
 static int (*xerrorxlib)(Display *, XErrorEvent *);
 static unsigned int numlockmask = 0;
 static void (*handler[LASTEvent]) (XEvent *) = {
@@ -640,7 +642,12 @@ configurenotify(XEvent *e)
 				for (c = m->clients; c; c = c->next)
 					if (c->isfullscreen)
 						resizeclient(c, m->mx, m->my, m->mw, m->mh);
-				XMoveResizeWindow(dpy, m->barwin, m->wx + sp, m->by + vp, m->ww -  2 * sp, bh);
+				if (m->drawbarwithgaps)
+					XMoveResizeWindow(dpy, m->barwin, m->wx + m->sbargappx,
+									  m->by + m->vbargappx,
+									  m->ww - (2 * m->sbargappx), bh);
+				else
+					XMoveResizeWindow(dpy, m->barwin, m->wx, m->by, m->ww, bh);
 			}
 			focus(NULL);
 			arrange(NULL);
@@ -713,6 +720,9 @@ createmon(void)
 	m->topbar = topbar;
 	m->gappx = gappx;
 	m->drawwithgaps = startwithgaps;
+	m->vbargappx = (topbar == 1) ? vertpad : -vertpad;
+	m->sbargappx = sidepad;
+	m->drawbarwithgaps = startwithbargaps;
 	m->lt[0] = &layouts[0];
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
 	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
@@ -871,7 +881,10 @@ drawstatusbar(Monitor *m, int bh, char* stext) {
 	text = p;
 
 	w += 2; /* 1px padding on both sides */
-	ret = x = m->ww - w - (2*sp);
+	if (m->drawbarwithgaps)
+		ret = x = m->ww - w - (2 * m->sbargappx);
+	else
+		ret = x = m->ww - w;
 
 	drw_setscheme(drw, scheme[LENGTH(colors)]);
 	drw->scheme[ColFg] = scheme[SchemeNorm][ColFg];
@@ -1899,6 +1912,41 @@ setgaps(const Arg *arg)
 }
 
 void
+setbargaps(const Arg *arg)
+{
+	switch(arg->i)
+	{
+		case GAP_TOGGLE:
+			selmon->drawbarwithgaps = !selmon->drawbarwithgaps;
+			break;
+		case GAP_RESET:
+			selmon->sbargappx = sidepad;
+			selmon->vbargappx = (topbar == 1) ? vertpad : -vertpad;
+			break;
+		default:
+			if (arg->i > 10 || arg->i < -10) {
+				if (selmon->vbargappx + (arg->i % 10) < 0)
+					selmon->vbargappx = 0;
+				else
+					selmon->vbargappx += arg->i % 10;
+			} else {
+				if (selmon->sbargappx + arg->i < 0)
+					selmon->sbargappx = 0;
+				else
+					selmon->sbargappx += arg->i;
+			}
+	}
+	if (selmon->drawbarwithgaps)
+		XMoveResizeWindow(dpy, selmon->barwin, selmon->wx + selmon->sbargappx,
+						  selmon->by + selmon->vbargappx,
+						  selmon->ww - (2 * selmon->sbargappx), bh);
+	else
+		XMoveResizeWindow(dpy, selmon->barwin, selmon->wx, selmon->by, selmon->ww, bh);
+	updatebarpos(selmon);
+	arrange(selmon);
+}
+
+void
 setlayout(const Arg *arg)
 {
 	if (!arg || !arg->v || arg->v != selmon->lt[selmon->sellt])
@@ -1948,8 +1996,6 @@ setup(void)
 		die("no fonts could be loaded.");
 	lrpad = drw->fonts->h;
 	bh = drw->fonts->h + 2;
-	sp = sidepad;
-	vp = (topbar == 1) ? vertpad : -vertpad;
 	updategeom();
 	/* init atoms */
 	utf8string = XInternAtom(dpy, "UTF8_STRING", False);
@@ -2132,7 +2178,12 @@ togglebar(const Arg *arg)
 {
 	selmon->showbar = !selmon->showbar;
 	updatebarpos(selmon);
-	XMoveResizeWindow(dpy, selmon->barwin, selmon->wx + sp, selmon->by + vp, selmon->ww - 2 * sp, bh);
+	if(selmon->drawbarwithgaps)
+		XMoveResizeWindow(dpy, selmon->barwin, selmon->wx + selmon->sbargappx,
+						  selmon->by + selmon->vbargappx,
+						  selmon->ww - (2 * selmon->sbargappx), bh);
+	else
+		XMoveResizeWindow(dpy, selmon->barwin, selmon->wx, selmon->by, selmon->ww, bh);
 	arrange(selmon);
 }
 
@@ -2252,10 +2303,18 @@ updatebars(void)
 	for (m = mons; m; m = m->next) {
 		if (m->barwin)
 			continue;
-		m->barwin = XCreateWindow(dpy, root, m->wx + sp, m->by + vp,
-								  m->ww - 2 * sp, bh, 0, depth,
-		                          InputOutput, visual,
-		                          CWOverrideRedirect|CWBackPixel|CWBorderPixel|CWColormap|CWEventMask, &wa);
+		if (m->drawbarwithgaps)
+			m->barwin = XCreateWindow(dpy, root, m->wx + m->sbargappx,
+									  m->by + m->vbargappx,
+									  m->ww - (2 * m->sbargappx), bh, 0, depth,
+									  InputOutput, visual,
+									  CWOverrideRedirect|CWBackPixel|CWBorderPixel|
+									  CWColormap|CWEventMask, &wa);
+		else
+			m->barwin = XCreateWindow(dpy, root, m->wx, m->by, m->ww, bh, 0, depth,
+									  InputOutput, visual,
+									  CWOverrideRedirect|CWBackPixel|CWBorderPixel|
+									  CWColormap|CWEventMask, &wa);
 		XDefineCursor(dpy, m->barwin, cursor[CurNormal]->cursor);
 		XMapRaised(dpy, m->barwin);
 		XSetClassHint(dpy, m->barwin, &ch);
@@ -2267,12 +2326,20 @@ updatebarpos(Monitor *m)
 {
 	m->wy = m->my;
 	m->wh = m->mh;
-	if (m->showbar) {
-		m->wh = m->wh - vertpad - bh;
-		m->by = m->topbar ? m->wy : m->wy + m->wh + vertpad;
-		m->wy = m->topbar ? m->wy + bh + vp : m->wy;
-	} else
-		m->by = -bh - vp;
+	if (m->drawbarwithgaps)
+		if (m->showbar) {
+			m->wh = m->wh - m->vbargappx - bh;
+			m->by = m->topbar ? m->wy : m->wy + m->wh + m->vbargappx;
+			m->wy = m->topbar ? m->wy + bh + m->vbargappx : m->wy;
+		} else
+			m->by = -bh - m->vbargappx;
+	else
+		if (m->showbar) {
+			m->wh -= bh;
+			m->by = m->topbar ? m->wy : m->wy + m->wh;
+			m->wy = m->topbar ? m->wy + bh : m->wy;
+		} else
+			m->by = -bh;
 }
 
 void
