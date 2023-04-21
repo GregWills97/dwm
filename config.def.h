@@ -9,6 +9,7 @@ static const unsigned int snap      = 32;       /* snap pixel */
 static const int barheight          = 6;        /* bar height */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
+static const int swallowfloating    = 0;        /* 1 means swallow floating windows */
 static const int startwithbargaps   = 1;		/* 0 means no gaps at start */
 static const int vertpad            = 10;		/* vertical padding of bar */
 static const int sidepad            = 10;		/* horizontal padding of bar */
@@ -46,9 +47,9 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	/* class     instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
+	{ "St",      NULL,     NULL,           0,         0,          1,           0,        -1 },
+	{ NULL,      NULL,     "Event Tester", 0,         0,          0,           1,        -1 },
 };
 
 /* layout(s) */
@@ -85,7 +86,8 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-l", "15",
 								  "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan,
 								  "-sf", col_gray4, "-nhb", col_gray1, "-nhf", col_highlight,
 								  "-shb", col_cyan, "-shf", col_highlight, "-p", "Run: ", NULL };
-static const char *termcmd[]  = { "st", NULL };
+static const char *termcmd[]  = { "/usr/bin/st", NULL };
+static const char *testtermcmd[]  = { "/usr/local/bin/st", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        			function        argument */
@@ -129,6 +131,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_v,      spawn,          SHCMD("pavucontrol") },
 	{ MODKEY|ShiftMask,             XK_y,      spawn,          SHCMD("brave-bin youtube.com") },
 	{ MODKEY,             			XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY|ShiftMask,    			XK_Return, spawn,          {.v = testtermcmd } },
 	{ MODKEY|ShiftMask,             XK_F1,     spawn,          SHCMD("steam") },
 	{ MODKEY|ShiftMask,             XK_F2,     spawn,          SHCMD("brave-bin twitch.tv") },
 	{ MODKEY|ShiftMask,             XK_F3,     spawn,          SHCMD("vpn-connect") },
