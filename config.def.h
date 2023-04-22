@@ -86,8 +86,7 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-l", "15",
 								  "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan,
 								  "-sf", col_gray4, "-nhb", col_gray1, "-nhf", col_highlight,
 								  "-shb", col_cyan, "-shf", col_highlight, "-p", "Run: ", NULL };
-static const char *termcmd[]  = { "/usr/bin/st", NULL };
-static const char *testtermcmd[]  = { "/usr/local/bin/st", NULL };
+static const char *termcmd[]  = { "st", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        			function        argument */
@@ -131,7 +130,6 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_v,      spawn,          SHCMD("pavucontrol") },
 	{ MODKEY|ShiftMask,             XK_y,      spawn,          SHCMD("brave-bin youtube.com") },
 	{ MODKEY,             			XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY|ShiftMask,    			XK_Return, spawn,          {.v = testtermcmd } },
 	{ MODKEY|ShiftMask,             XK_F1,     spawn,          SHCMD("steam") },
 	{ MODKEY|ShiftMask,             XK_F2,     spawn,          SHCMD("brave-bin twitch.tv") },
 	{ MODKEY|ShiftMask,             XK_F3,     spawn,          SHCMD("vpn-connect") },
