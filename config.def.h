@@ -6,7 +6,7 @@ static const unsigned int borderpx  = 3;        /* border pixel of windows */
 static const int startwithgaps	    = 1;	    /* 1 means gaps are used by default */
 static const unsigned int gappx     = 10;       /* default gap between windows in pixels */
 static const unsigned int snap      = 32;       /* snap pixel */
-static const int barheight          = 6;        /* bar height */
+static const int barheight          = 24;       /* bar height */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int swallowfloating    = 0;        /* 1 means swallow floating windows */
@@ -14,8 +14,7 @@ static const int startwithbargaps   = 1;		/* 0 means no gaps at start */
 static const int vertpad            = 10;		/* vertical padding of bar */
 static const int sidepad            = 10;		/* horizontal padding of bar */
 static const char *fonts[]          = { "Liberation Mono:style=Regular:size=10:antialias=true:autohint=true",
-										"JoyPixels:style=Regular:size=10:antialias=true:autohint=true",
-										"Font Awesome 5 Free Regular:style=Regular:size=10:antialias=true:autohint=true",
+										"JoyPixels:style=Regular:size=10:antialias=true:autohint=true", "Font Awesome 5 Free Regular:style=Regular:size=10:antialias=true:autohint=true",
 										"Font Awesome 5 Free Solid:style=Solid:size=10:antialias=true:autohint=true",
 										"Font Awesome 5 Brands Regular:style=Regular:size=10:antialias=true:autohint=true" };
 static const char col_gray1[]       = "#222222";
@@ -29,6 +28,7 @@ static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
 	[SchemeSel]  = { col_gray4, col_cyan,  col_highlight },
+	[SchemeHighlight] = { col_highlight, col_gray4, col_gray2 },
 };
 static const unsigned int baralpha    = 0xDF;
 static const unsigned int borderalpha = OPAQUE;
@@ -36,11 +36,20 @@ static unsigned int alphas[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { OPAQUE, baralpha, borderalpha },
 	[SchemeSel]  = { OPAQUE, baralpha, borderalpha },
+	[SchemeHighlight]  = { OPAQUE, baralpha, borderalpha },
 };
 
 /* tagging */
-//static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-static const char *tags[] = { "", "", "", "", "", "", ""};
+static const Tag tags[] = {
+	{ "/usr/share/icons/gde/gentoo-logo.xpm", Image },
+	{ "/usr/share/icons/gde/brave-logo.xpm", Image },
+	{ "/usr/share/icons/gde/discord-logo.xpm", Image },
+	{ "", Text },
+	{ "", Text },
+	{ "", Text },
+	{ "", Text },
+	//{ "/home/greg/Downloads/gentoo-logo32x32.xpm", Image },
+};
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -122,22 +131,22 @@ static const Key keys[] = {
 	{ MODKEY|ControlMask|ShiftMask, XK_minus,  			setbargaps,  	{.i = GAP_RESET } },
 	{ MODKEY|ControlMask|ShiftMask, XK_equal,  			setbargaps,    	{.i = GAP_TOGGLE} },
 	/* HOTKEYS */
-	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_d,      spawn,          SHCMD("discord") },
-	{ MODKEY|ShiftMask,             XK_f,      spawn,          SHCMD("brave-bin") },
-	{ MODKEY,                       XK_p,      spawn,          SHCMD("passmenu") },
-	{ MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("gde-sesman") },
-	{ MODKEY|ShiftMask,             XK_v,      spawn,          SHCMD("pavucontrol") },
-	{ MODKEY|ShiftMask,             XK_y,      spawn,          SHCMD("brave-bin youtube.com") },
-	{ MODKEY,             			XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY|ShiftMask,             XK_F1,     spawn,          SHCMD("steam") },
-	{ MODKEY|ShiftMask,             XK_F2,     spawn,          SHCMD("brave-bin twitch.tv") },
-	{ MODKEY|ShiftMask,             XK_F3,     spawn,          SHCMD("vpn-connect") },
-	{ 0,          XF86XK_AudioRaiseVolume,     spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +10%; pkill -RTMIN+3 dwmblocks") },
-	{ 0,          XF86XK_AudioLowerVolume,     spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -10%; pkill -RTMIN+3 dwmblocks") },
-	{ 0,           XF86XK_MonBrightnessUp,     spawn,          SHCMD("xbacklight -inc 10") },
-    { 0,         XF86XK_MonBrightnessDown,     spawn,          SHCMD("xbacklight -dec 10") },
-    { 0,                 XF86XK_AudioPlay,     spawn,          SHCMD("playerctl --all-players play-pause") },
+	{ MODKEY,                       XK_d,				spawn,          {.v = dmenucmd } },
+	{ MODKEY|ShiftMask,             XK_d,      			spawn,          SHCMD("discord") },
+	{ MODKEY|ShiftMask,             XK_f,      			spawn,          SHCMD("brave-bin") },
+	{ MODKEY,                       XK_p,      			spawn,          SHCMD("passmenu") },
+	{ MODKEY|ShiftMask,             XK_p,      			spawn,          SHCMD("gde-sesman") },
+	{ MODKEY|ShiftMask,             XK_v,      			spawn,          SHCMD("pavucontrol") },
+	{ MODKEY|ShiftMask,             XK_y,      			spawn,          SHCMD("brave-bin youtube.com") },
+	{ MODKEY,             			XK_Return, 			spawn,          {.v = termcmd } },
+	{ MODKEY|ShiftMask,             XK_F1,     			spawn,          SHCMD("steam") },
+	{ MODKEY|ShiftMask,             XK_F2,     			spawn,          SHCMD("brave-bin twitch.tv") },
+	{ MODKEY|ShiftMask,             XK_F3,     			spawn,          SHCMD("vpn-connect") },
+	{ 0,          XF86XK_AudioRaiseVolume,     			spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +10%; pkill -RTMIN+3 dwmblocks") },
+	{ 0,          XF86XK_AudioLowerVolume,     			spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -10%; pkill -RTMIN+3 dwmblocks") },
+	{ 0,           XF86XK_MonBrightnessUp,     			spawn,          SHCMD("xbacklight -inc 10") },
+    { 0,         XF86XK_MonBrightnessDown,     			spawn,          SHCMD("xbacklight -dec 10") },
+    { 0,                 XF86XK_AudioPlay,     			spawn,          SHCMD("playerctl --all-players play-pause") },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)

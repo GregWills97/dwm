@@ -385,6 +385,24 @@ no_match:
 	return x + (render ? w : 0);
 }
 
+void drw_pixmap(Drw *drw, int x, int y, unsigned int w, unsigned int h, unsigned int pixw, unsigned int pixh, Pixmap *pixmap, Pixmap *clipmask, int invert)
+{
+	if (!drw || !pixmap || !clipmask)
+		return;
+	if (w < pixw || h < pixh)
+		return;
+
+	XSetForeground(drw->dpy, drw->gc, drw->scheme[invert ? ColFg : ColBg].pixel);
+	XFillRectangle(drw->dpy, drw->drawable, drw->gc, x, y, w, h);
+
+	x += (w - pixw) / 2;
+	y += (h - pixh) / 2;
+	XSetClipOrigin(drw->dpy, drw->gc, x, y);
+	XSetClipMask(drw->dpy, drw->gc, *clipmask);
+	XCopyArea(drw->dpy, *pixmap, drw->drawable, drw->gc, 0, 0, pixw, pixh, x, y);
+	XSetClipMask(drw->dpy, drw->gc, None);
+}
+
 void
 drw_map(Drw *drw, Window win, int x, int y, unsigned int w, unsigned int h)
 {

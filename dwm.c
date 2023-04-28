@@ -36,6 +36,7 @@
 #include <X11/Xatom.h>
 #include <X11/Xlib.h>
 #include <X11/Xproto.h>
+#include <X11/xpm.h>
 #include <X11/Xutil.h>
 #ifdef XINERAMA
 #include <X11/extensions/Xinerama.h>
@@ -66,16 +67,23 @@
 #define OPAQUE                  0xFFU
 #define GAP_TOGGLE 100
 #define GAP_RESET  0
+#define MAX_ICONS  10
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum { SchemeNorm, SchemeSel }; /* color schemes */
+enum { SchemeNorm, SchemeSel, SchemeHighlight }; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
 enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
 enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
        ClkClientWin, ClkRootWin, ClkLast }; /* clicks */
+enum { Text, Image }; /* Icon Types */
+
+typedef struct {
+	const char *icon;
+	int type;
+} Tag;
 
 typedef union {
 	int i;
@@ -268,6 +276,7 @@ static Monitor *wintomon(Window w);
 static int xerror(Display *dpy, XErrorEvent *ee);
 static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
+static void xpmloadicon();
 static void xinitvisual();
 static void zoom(const Arg *arg);
 
@@ -286,6 +295,7 @@ static int screen;
 static int sw, sh;           /* X display screen geometry width, height */
 static int bh;               /* bar height */
 static int lrpad;            /* sum of left and right padding for text */
+static int iconpad;          /* sum of left and right padding for icons */
 static int (*xerrorxlib)(Display *, XErrorEvent *);
 static unsigned int numlockmask = 0;
 static void (*handler[LASTEvent]) (XEvent *) = {
@@ -317,12 +327,17 @@ static Visual *visual;
 static int depth;
 static Colormap cmap;
 static xcb_connection_t *xcon;
+static Pixmap pixmap[MAX_ICONS];
+static Pixmap clipmask[MAX_ICONS];
+static unsigned int pixw[MAX_ICONS], pixh[MAX_ICONS];
+static unsigned int maxpixw, maxpixh;
 
 /* configuration, allows nested code to access above variables */
 #include "config.h"
 
 /* compile-time check if all tags fit into an unsigned int bit array. */
-struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
+//struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
+struct NumIconTags { char limitexceeded[LENGTH(tags) > MAX_ICONS ? -1 : 1]; };
 
 /* function implementations */
 void
@@ -549,7 +564,7 @@ buttonpress(XEvent *e)
 	if (ev->window == selmon->barwin) {
 		i = x = 0;
 		do
-			x += TEXTW(tags[i]);
+			x += iconpad;
 		while (ev->x >= x && ++i < LENGTH(tags));
 		if (i < LENGTH(tags)) {
 			click = ClkTagBar;
@@ -633,6 +648,10 @@ cleanup(void)
 	XSync(dpy, False);
 	XSetInputFocus(dpy, PointerRoot, RevertToPointerRoot, CurrentTime);
 	XDeleteProperty(dpy, root, netatom[NetActiveWindow]);
+	for (i = 0; i < LENGTH(tags); i++) {
+		XFreePixmap(drw->dpy, pixmap[i]);
+		XFreePixmap(drw->dpy, clipmask[i]);
+	}
 }
 
 void
@@ -851,7 +870,7 @@ drawbar(Monitor *m)
 {
 	int x, w, tw = 0;
 	int boxs = drw->fonts->h / 9;
-	int boxw = drw->fonts->h / 6 + 2;
+	int boxw = maxpixw / 6 + 2;
 	unsigned int i, occ = 0, urg = 0;
 	Client *c;
 
@@ -869,12 +888,18 @@ drawbar(Monitor *m)
 			urg |= c->tags;
 	}
 	x = 0;
+	w = iconpad;
 	for (i = 0; i < LENGTH(tags); i++) {
-		w = TEXTW(tags[i]);
-		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
-		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
+		if (urg & 1 << i)
+			drw_setscheme(drw, scheme[SchemeHighlight]);
+		else
+			drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
+		if (tags[i].type == Image)
+			drw_pixmap(drw, x, 0, w, bh, pixw[i], pixh[i], &pixmap[i], &clipmask[i], urg & 1 << i);
+		else
+			drw_text(drw, x, 0, w, bh, (lrpad / 2) + (w - TEXTW(tags[i].icon))/2, tags[i].icon, urg & 1 << i);
 		if (occ & 1 << i)
-			drw_rect(drw, x + boxw, bh - boxw/2, w - ( 2 * boxw + 1), boxw/2,
+			drw_rect(drw, x + boxw, bh - boxw/2, w - ( 2 * boxw), boxw/2,
 					 m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
 					 urg & 1 << i);
 		x += w;
@@ -2068,7 +2093,12 @@ setup(void)
 	if (!drw_fontset_create(drw, fonts, LENGTH(fonts)))
 		die("no fonts could be loaded.");
 	lrpad = drw->fonts->h;
-	bh = drw->fonts->h + barheight;
+	xpmloadicon();
+	iconpad = maxpixw + 16;
+	if ((maxpixh + 10) > (drw->fonts->h + 2))
+		bh = ((maxpixh + 10) > barheight) ? (maxpixh + 10) : barheight;
+	else
+		bh = ((drw->fonts->h + 2) > barheight) ? (drw->fonts->h + 2) : barheight;
 	updategeom();
 	/* init atoms */
 	utf8string = XInternAtom(dpy, "UTF8_STRING", False);
@@ -2844,6 +2874,43 @@ xerrorstart(Display *dpy, XErrorEvent *ee)
 {
 	die("dwm: another window manager is already running");
 	return -1;
+}
+
+static void xpmloadicon()
+{
+	XpmAttributes xa;
+	size_t i;
+	int ret;
+
+	for (i = 0; i < LENGTH(tags); i++) {
+		if (tags[i].type == Text) {
+			pixw[i] = 0;
+			pixh[i] = 0;
+			continue;
+		}
+		memset(&xa, 0, sizeof(xa));
+		xa.valuemask = XpmVisual|XpmColormap|XpmDepth;
+		xa.colormap = cmap;
+		xa.visual = visual;
+		xa.depth = depth;
+
+		ret = XpmReadFileToPixmap(drw->dpy, drw->drawable, tags[i].icon, &pixmap[i], &clipmask[i], &xa);
+		if (ret != XpmSuccess) {
+			fprintf(stderr, "Cannot load XPM icon: %s, %d\n", tags[i].icon, ret);
+			pixw[i] = 0;
+			pixh[i] = 0;
+		} else {
+			pixw[i] = xa.width;
+			pixh[i] = xa.height;
+		}
+
+		/* Set largest icon sizes */
+		maxpixw = (maxpixw > pixw[i]) ? maxpixw : pixw[i];
+		maxpixh = (maxpixh > pixh[i]) ? maxpixh : pixh[i];
+	}
+
+	XpmFreeAttributes(&xa);
+	return;
 }
 
 void

@@ -9,7 +9,7 @@ MANPREFIX = ${PREFIX}/share/man
 
 X11INC = /usr/X11R6/include
 X11LIBDIR = /usr/X11R6/lib
-X11LIBS = -lX11 -lXrender -lX11-xcb -lxcb-res
+X11LIBS = -lX11 -lXrender -lX11-xcb -lxcb-res -lXpm
 
 # Xinerama, comment if you don't want it
 XINERAMALIBS  = -lXinerama
