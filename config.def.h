@@ -27,6 +27,7 @@ static const char col_highlight[]   = "#569fba";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
+	[SchemeNormTags] = { col_gray4, col_gray1, col_gray2 },
 	[SchemeSel]  = { col_gray4, col_cyan,  col_highlight },
 	[SchemeHighlight] = { col_highlight, col_gray4, col_gray2 },
 };
@@ -35,20 +36,19 @@ static const unsigned int borderalpha = OPAQUE;
 static unsigned int alphas[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { OPAQUE, baralpha, borderalpha },
+	[SchemeNormTags] = { OPAQUE, baralpha, borderalpha },
 	[SchemeSel]  = { OPAQUE, baralpha, borderalpha },
 	[SchemeHighlight]  = { OPAQUE, baralpha, borderalpha },
 };
 
 /* tagging */
 static const Tag tags[] = {
-	{ "/usr/share/icons/gde/gentoo-logo.xpm", Image },
+	{ "/usr/share/icons/gde/terminal-icon.xpm", Image },
 	{ "/usr/share/icons/gde/brave-logo.xpm", Image },
 	{ "/usr/share/icons/gde/discord-logo.xpm", Image },
-	{ "", Text },
+	{ "/usr/share/icons/gde/steam-logo.xpm", Image },
 	{ "", Text },
-	{ "", Text },
-	{ "", Text },
-	//{ "/home/greg/Downloads/gentoo-logo32x32.xpm", Image },
+	{ "/usr/share/icons/gde/gentoo-logo.xpm", Image },
 };
 
 static const Rule rules[] = {
