@@ -14,14 +14,13 @@ static const int startwithbargaps   = 1;		/* 0 means no gaps at start */
 static const int vertpad            = 10;		/* vertical padding of bar */
 static const int sidepad            = 10;		/* horizontal padding of bar */
 static const char *fonts[]          = { "Liberation Mono:style=Regular:size=10:antialias=true:autohint=true",
-										"JoyPixels:style=Regular:size=10:antialias=true:autohint=true", "Font Awesome 5 Free Regular:style=Regular:size=10:antialias=true:autohint=true",
+                                        "JoyPixels:style=Regular:size=10:antialias=true:autohint=true", "Font Awesome 5 Free Regular:style=Regular:size=10:antialias=true:autohint=true",
 										"Font Awesome 5 Free Solid:style=Solid:size=10:antialias=true:autohint=true",
 										"Font Awesome 5 Brands Regular:style=Regular:size=10:antialias=true:autohint=true" };
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
-//static const char col_cyan[]        = "#005577";
 static const char col_cyan[]        = "#47407D";
 static const char col_highlight[]   = "#569fba";
 static const char *colors[][3]      = {
@@ -71,7 +70,7 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },    /* first entry is default */
-	{ "",      NULL },    /* no layout function means floating behavior */
+	{ "",        NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
 };
 
@@ -92,69 +91,69 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-l", "15",
-								  "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan,
+                                  "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan,
 								  "-sf", col_gray4, "-nhb", col_gray1, "-nhf", col_highlight,
 								  "-shb", col_cyan, "-shf", col_highlight, "-p", "Run: ", NULL };
 static const char *termcmd[]  = { "st", NULL };
 
 static const Key keys[] = {
-	/* modifier                     key        			function        argument */
-	{ MODKEY,                       XK_b,      			togglebar,      {0} },
-	{ MODKEY,                       XK_j,      			focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_k,      			focusstack,     {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_j,      			rotatestack,    {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_k,      			rotatestack,    {.i = -1 } },
-	{ MODKEY,                       XK_i,      			incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_u,      			incnmaster,     {.i = -1 } },
-	{ MODKEY,                       XK_h,      			setmfact,       {.f = -0.05} },
-	{ MODKEY,                       XK_l,      			setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_space,  			zoom,           {0} },
-	{ MODKEY,                       XK_Tab,    			view,           {0} },
-	{ MODKEY,             			XK_x,      			killclient,     {0} },
-	{ MODKEY,                       XK_w,      			setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      			togglefullscr,  {0} },
-	{ MODKEY|ShiftMask,             XK_space,  			togglefloating, {0} },
-	{ MODKEY,                       XK_0,      			view,           {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_0,      			tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,  			focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period, 			focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,  			tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period, 			tagmon,         {.i = +1 } },
-	{ MODKEY,                       XK_minus,  			setgaps,        {.i = -5 } },
-	{ MODKEY,                       XK_equal,  			setgaps,        {.i = +5 } },
-	{ MODKEY|ShiftMask,             XK_minus,  			setgaps,        {.i = GAP_RESET } },
-	{ MODKEY|ShiftMask,             XK_equal,  			setgaps,        {.i = GAP_TOGGLE} },
-	{ MODKEY|ControlMask,           XK_minus,  			setbargaps,     {.i = +1 } },
-	{ MODKEY|ControlMask,           XK_equal,  			setbargaps,     {.i = -1 } },
-	{ MODKEY|ControlMask,           XK_bracketleft,  	setbargaps,     {.i = +11 } },
-	{ MODKEY|ControlMask,           XK_bracketright,	setbargaps,     {.i = -11 } },
-	{ MODKEY|ControlMask|ShiftMask, XK_minus,  			setbargaps,  	{.i = GAP_RESET } },
-	{ MODKEY|ControlMask|ShiftMask, XK_equal,  			setbargaps,    	{.i = GAP_TOGGLE} },
+	/* modifier                     key                 function        argument */
+	{ MODKEY,                       XK_b,               togglebar,      {0} },
+	{ MODKEY,                       XK_j,               focusstack,     {.i = +1 } },
+	{ MODKEY,                       XK_k,               focusstack,     {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_j,               rotatestack,    {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_k,               rotatestack,    {.i = -1 } },
+	{ MODKEY,                       XK_i,               incnmaster,     {.i = +1 } },
+	{ MODKEY,                       XK_u,               incnmaster,     {.i = -1 } },
+	{ MODKEY,                       XK_h,               setmfact,       {.f = -0.05} },
+	{ MODKEY,                       XK_l,               setmfact,       {.f = +0.05} },
+	{ MODKEY,                       XK_space,           zoom,           {0} },
+	{ MODKEY,                       XK_Tab,             view,           {0} },
+	{ MODKEY,                       XK_x,               killclient,     {0} },
+	{ MODKEY,                       XK_w,               setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_f,               togglefullscr,  {0} },
+	{ MODKEY|ShiftMask,             XK_space,           togglefloating, {0} },
+	{ MODKEY,                       XK_0,               view,           {.ui = ~0 } },
+	{ MODKEY|ShiftMask,             XK_0,               tag,            {.ui = ~0 } },
+	{ MODKEY,                       XK_comma,           focusmon,       {.i = -1 } },
+	{ MODKEY,                       XK_period,          focusmon,       {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_comma,           tagmon,         {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_period,          tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_minus,           setgaps,        {.i = -5 } },
+	{ MODKEY,                       XK_equal,           setgaps,        {.i = +5 } },
+	{ MODKEY|ShiftMask,             XK_minus,           setgaps,        {.i = GAP_RESET } },
+	{ MODKEY|ShiftMask,             XK_equal,           setgaps,        {.i = GAP_TOGGLE} },
+	{ MODKEY|ControlMask,           XK_minus,           setbargaps,     {.i = +1 } },
+	{ MODKEY|ControlMask,           XK_equal,           setbargaps,     {.i = -1 } },
+	{ MODKEY|ControlMask,           XK_bracketleft,     setbargaps,     {.i = +11 } },
+	{ MODKEY|ControlMask,           XK_bracketright,    setbargaps,     {.i = -11 } },
+	{ MODKEY|ControlMask|ShiftMask, XK_minus,           setbargaps,     {.i = GAP_RESET } },
+	{ MODKEY|ControlMask|ShiftMask, XK_equal,           setbargaps,    	{.i = GAP_TOGGLE} },
 	/* HOTKEYS */
-	{ MODKEY,                       XK_d,				spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_d,      			spawn,          SHCMD("discord") },
-	{ MODKEY|ShiftMask,             XK_f,      			spawn,          SHCMD("brave-bin") },
-	{ MODKEY,                       XK_p,      			spawn,          SHCMD("passmenu") },
-	{ MODKEY|ShiftMask,             XK_p,      			spawn,          SHCMD("gde-session") },
-	{ MODKEY|ShiftMask,             XK_v,      			spawn,          SHCMD("pavucontrol") },
-	{ MODKEY|ShiftMask,             XK_y,      			spawn,          SHCMD("brave-bin youtube.com") },
-	{ MODKEY,             			XK_Return, 			spawn,          {.v = termcmd } },
-	{ MODKEY|ShiftMask,             XK_F1,     			spawn,          SHCMD("steam") },
-	{ MODKEY|ShiftMask,             XK_F2,     			spawn,          SHCMD("brave-bin twitch.tv") },
-	{ 0,          XF86XK_AudioRaiseVolume,     			spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +10%; pkill -RTMIN+4 dwmblocks") },
-	{ 0,          XF86XK_AudioLowerVolume,     			spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -10%; pkill -RTMIN+4 dwmblocks") },
-	{ 0,           XF86XK_MonBrightnessUp,     			spawn,          SHCMD("xbacklight -inc 10") },
-    { 0,         XF86XK_MonBrightnessDown,     			spawn,          SHCMD("xbacklight -dec 10") },
-    { 0,                 XF86XK_AudioPlay,     			spawn,          SHCMD("playerctl --all-players play-pause") },
-	TAGKEYS(                        XK_1,                      0)
-	TAGKEYS(                        XK_2,                      1)
-	TAGKEYS(                        XK_3,                      2)
-	TAGKEYS(                        XK_4,                      3)
-	TAGKEYS(                        XK_5,                      4)
-	TAGKEYS(                        XK_6,                      5)
-	TAGKEYS(                        XK_7,                      6)
-	TAGKEYS(                        XK_8,                      7)
-	TAGKEYS(                        XK_9,                      8)
+	{ MODKEY,                       XK_d,               spawn,          {.v = dmenucmd } },
+	{ MODKEY|ShiftMask,             XK_d,               spawn,          SHCMD("discord") },
+	{ MODKEY|ShiftMask,             XK_f,               spawn,          SHCMD("brave-bin") },
+	{ MODKEY,                       XK_p,               spawn,          SHCMD("passmenu") },
+	{ MODKEY|ShiftMask,             XK_p,               spawn,          SHCMD("gde-session") },
+	{ MODKEY|ShiftMask,             XK_v,               spawn,          SHCMD("pavucontrol") },
+	{ MODKEY|ShiftMask,             XK_y,               spawn,          SHCMD("brave-bin youtube.com") },
+	{ MODKEY,                       XK_Return,          spawn,          {.v = termcmd } },
+	{ MODKEY|ShiftMask,             XK_F1,              spawn,          SHCMD("steam") },
+	{ MODKEY|ShiftMask,             XK_F2,              spawn,          SHCMD("brave-bin twitch.tv") },
+	{ 0,          XF86XK_AudioRaiseVolume,              spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +10%; pkill -RTMIN+4 dwmblocks") },
+	{ 0,          XF86XK_AudioLowerVolume,              spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -10%; pkill -RTMIN+4 dwmblocks") },
+	{ 0,           XF86XK_MonBrightnessUp,              spawn,          SHCMD("xbacklight -inc 10") },
+    { 0,         XF86XK_MonBrightnessDown,              spawn,          SHCMD("xbacklight -dec 10") },
+    { 0,                 XF86XK_AudioPlay,              spawn,          SHCMD("playerctl --all-players play-pause") },
+	TAGKEYS(                         XK_1,                  0)
+	TAGKEYS(                         XK_2,                  1)
+	TAGKEYS(                         XK_3,                  2)
+	TAGKEYS(                         XK_4,                  3)
+	TAGKEYS(                         XK_5,                  4)
+	TAGKEYS(                         XK_6,                  5)
+	TAGKEYS(                         XK_7,                  6)
+	TAGKEYS(                         XK_8,                  7)
+	TAGKEYS(                         XK_9,                  8)
 };
 
 /* button definitions */

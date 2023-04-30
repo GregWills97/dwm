@@ -337,7 +337,6 @@ static unsigned int pixw[LENGTH(tags)], pixh[LENGTH(tags)];
 static unsigned int maxpixw, maxpixh;
 
 /* compile-time check if all tags fit into an unsigned int bit array. */
-//struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
 struct NumIconTags { char limitexceeded[LENGTH(tags) > MAX_ICONS ? -1 : 1]; };
 
 /* function implementations */
