@@ -37,6 +37,8 @@ dist: clean
 	rm -rf dwm-${VERSION}
 
 install: all
+	mkdir -p ${DESTDIR}/usr/share/icons/gde
+	cp -f icons/*.xpm ${DESTDIR}/usr/share/icons/gde
 	mkdir -p ${DESTDIR}${PREFIX}/bin
 	cp -f dwm ${DESTDIR}${PREFIX}/bin
 	chmod 755 ${DESTDIR}${PREFIX}/bin/dwm
