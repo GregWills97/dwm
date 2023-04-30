@@ -3,16 +3,16 @@
 
 /* appearance */
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
-static const int startwithgaps	    = 1;	    /* 1 means gaps are used by default */
+static const int startwithgaps	    = 1;        /* 1 means gaps are used by default */
 static const unsigned int gappx     = 10;       /* default gap between windows in pixels */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int barheight          = 24;       /* bar height */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int swallowfloating    = 0;        /* 1 means swallow floating windows */
-static const int startwithbargaps   = 1;		/* 0 means no gaps at start */
-static const int vertpad            = 10;		/* vertical padding of bar */
-static const int sidepad            = 10;		/* horizontal padding of bar */
+static const int startwithbargaps   = 1;        /* 0 means no gaps at start */
+static const int vertpad            = 10;       /* vertical padding of bar */
+static const int sidepad            = 10;       /* horizontal padding of bar */
 static const char *fonts[]          = { "Liberation Mono:style=Regular:size=10:antialias=true:autohint=true",
                                         "JoyPixels:style=Regular:size=10:antialias=true:autohint=true",
                                         "Font Awesome 5 Free Regular:style=Regular:size=10:antialias=true:autohint=true",
