@@ -129,7 +129,7 @@ static const Key keys[] = {
 	{ MODKEY|ControlMask,           XK_bracketleft,     setbargaps,     {.i = +11 } },
 	{ MODKEY|ControlMask,           XK_bracketright,    setbargaps,     {.i = -11 } },
 	{ MODKEY|ControlMask|ShiftMask, XK_minus,           setbargaps,     {.i = GAP_RESET } },
-	{ MODKEY|ControlMask|ShiftMask, XK_equal,           setbargaps,    	{.i = GAP_TOGGLE} },
+	{ MODKEY|ControlMask|ShiftMask, XK_equal,           setbargaps,     {.i = GAP_TOGGLE} },
 	/* HOTKEYS */
 	{ MODKEY,                       XK_d,               spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_d,               spawn,          SHCMD("discord") },
