@@ -1,7 +1,0 @@
-#!/bin/bash
-
-eix-sync
-emerge -auvDN --with-bdeps=y @world
-emerge -ac
-eclean-dist -d
-dispatch-conf
