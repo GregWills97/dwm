@@ -143,8 +143,8 @@ static const Key keys[] = {
 	{ 0,          XF86XK_AudioRaiseVolume,              spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +10%; pkill -RTMIN+4 dwmblocks") },
 	{ 0,          XF86XK_AudioLowerVolume,              spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -10%; pkill -RTMIN+4 dwmblocks") },
 	{ 0,           XF86XK_MonBrightnessUp,              spawn,          SHCMD("xbacklight -inc 10") },
-    { 0,         XF86XK_MonBrightnessDown,              spawn,          SHCMD("xbacklight -dec 10") },
-    { 0,                 XF86XK_AudioPlay,              spawn,          SHCMD("playerctl --all-players play-pause") },
+	{ 0,         XF86XK_MonBrightnessDown,              spawn,          SHCMD("xbacklight -dec 10") },
+	{ 0,                 XF86XK_AudioPlay,              spawn,          SHCMD("playerctl --all-players play-pause") },
 	TAGKEYS(                         XK_1,                  0)
 	TAGKEYS(                         XK_2,                  1)
 	TAGKEYS(                         XK_3,                  2)
