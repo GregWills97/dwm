@@ -14,7 +14,8 @@ static const int startwithbargaps   = 1;		/* 0 means no gaps at start */
 static const int vertpad            = 10;		/* vertical padding of bar */
 static const int sidepad            = 10;		/* horizontal padding of bar */
 static const char *fonts[]          = { "Liberation Mono:style=Regular:size=10:antialias=true:autohint=true",
-                                        "JoyPixels:style=Regular:size=10:antialias=true:autohint=true", "Font Awesome 5 Free Regular:style=Regular:size=10:antialias=true:autohint=true",
+                                        "JoyPixels:style=Regular:size=10:antialias=true:autohint=true",
+                                        "Font Awesome 5 Free Regular:style=Regular:size=10:antialias=true:autohint=true",
                                         "Font Awesome 5 Free Solid:style=Solid:size=10:antialias=true:autohint=true",
                                         "Font Awesome 5 Brands Regular:style=Regular:size=10:antialias=true:autohint=true" };
 static const char col_gray1[]       = "#222222";
