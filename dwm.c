@@ -1755,7 +1755,7 @@ rotatestack(const Arg *arg)
 		for (c = nexttiled(selmon->clients); c && nexttiled(c->next); c = nexttiled(c->next));
 		if (c){
 			detach(c);
-			attachBelow(c);
+			attach(c);
 			detachstack(c);
 			attachstack(c);
 		}
