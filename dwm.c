@@ -2278,15 +2278,14 @@ tile(Monitor *m)
 		for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 			if (i < m->nmaster) {
 				h = (m->wh - my) / (MIN(n, m->nmaster) - i);
-				if (n == 1)
-					resize(c, m->wx - c->bw, m->wy, m->ww, m->wh, False);
-				else
-					resize(c, m->wx - c->bw, m->wy + my, mw - c->bw, h - c->bw, False);
-				my += HEIGHT(c) - c->bw;
+				resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), False);
+				if (my + HEIGHT(c) < m->wh)
+					my += HEIGHT(c);
 			} else {
 				h = (m->wh - ty) / (n - i);
-				resize(c, m->wx + mw - c->bw, m->wy + ty, m->ww - mw, h - c->bw, False);
-				ty += HEIGHT(c) - c->bw;
+				resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), False);
+				if (ty + HEIGHT(c) < m->wh)
+					ty += HEIGHT(c);
 			}
 	}
 }
